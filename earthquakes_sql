@@ -1,10 +1,24 @@
+---- numero totale di eventi
 select count(eventid) as total_earthquakes
 from terremoti_italia_ingv;
 
-
+---- numero di eventi per anno
 SELECT 
     YEAR(time) AS year,
     COUNT(*) AS num_events
 FROM terremoti_italia_ingv
 GROUP BY year
 ORDER BY year;
+
+--- province italiane più colpite
+SELECT 
+    rp.provincia,
+    rp.sigla,
+    COUNT(*) AS count_quakes
+FROM terremoti_italia_ingv ti
+JOIN regioni_province rp 
+    ON ti.place LIKE CONCAT('%', rp.provincia, '%')
+       OR ti.place LIKE CONCAT('%', rp.sigla, '%')
+GROUP BY rp.provincia, rp.sigla
+ORDER BY count_quakes DESC
+LIMIT 10;
