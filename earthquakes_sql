@@ -22,3 +22,17 @@ JOIN regioni_province rp
 GROUP BY rp.provincia, rp.sigla
 ORDER BY count_quakes DESC
 LIMIT 10;
+
+---- magnitude media per anno
+SELECT
+    YEAR(time) AS year,
+    AVG(mag) AS avg_magnitude
+FROM terremoti_italia_ingv
+GROUP BY year
+ORDER BY year;
+
+---- 20 terremoti con la magnitudine più grande 
+SELECT mag, place, time
+FROM terremoti_italia_ingv
+order by mag desc
+limit 20
